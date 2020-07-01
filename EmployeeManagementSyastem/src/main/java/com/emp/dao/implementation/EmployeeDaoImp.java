@@ -18,8 +18,9 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
 import com.emp.dao.interfaces.EmployeeDao;
-import com.emp.entity.Admin;
-import com.emp.entity.Employee;
+import com.emp.entity.EmployeeDetail;
+import com.emp.entity.User;
+
 
 @Repository
 public class EmployeeDaoImp  implements EmployeeDao{
@@ -31,36 +32,39 @@ public class EmployeeDaoImp  implements EmployeeDao{
 	@Autowired
     JavaMailSender mailSender;
 
-	 private static String Collection_Name ="employee";
-
+	 private static String Collection_Name ="user";
+	
 	@Override
-	public Boolean addEmployee(Employee employee1) 
+	public Boolean addEmployee(User user) 
 	{
 		// TODO Auto-generated method stub
 		boolean output= false;
 		
 		
-			Employee employee;
-			Query query = new Query();
-			employee = mongoTemplate.findOne(query.addCriteria(
-					Criteria.where("emailId").is(employee1.getEmailId())), Employee.class);
+		
 			
-			System.out.println("test adminDetail : " + employee);
-			System.out.println( "test status " + employee);
-			if(employee == null)
+			Query query = new Query();
+			User user1 = mongoTemplate.findOne(query.addCriteria(
+					Criteria.where("emailId").is(user.getEmailId())), User.class);
+			
+			System.out.println("test adminDetail : " + user);
+			if(user1 == null)
 				{
-					employee1.setEmployeeId(UUID.randomUUID().toString());
-					employee1.setRole("employee");
-					employee1.setPassword(UUID.randomUUID().toString());
-					System.out.println("get password " + employee1.getPassword());
-				
-					sendEmailEmployee(employee1);
-					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-					employee1.setPassword(bCryptPasswordEncoder.encode(employee1.getPassword()));
 					
-					mongoTemplate.insert(employee1, Collection_Name);
+					String empId = UUID.randomUUID().toString();
+					user.setUserId(empId);
+					user.setRole("employee");
+					String pass = UUID.randomUUID().toString();
+					user.setPassword(pass);
+					
+					System.out.println("get password " + user.getPassword());
 				
-					output=true;
+//					sendEmailEmployee(employee1);
+					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+					user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
+					
+					mongoTemplate.insert(user, Collection_Name);
+									output=true;
 				}
 				else
 				{
@@ -72,35 +76,40 @@ public class EmployeeDaoImp  implements EmployeeDao{
 
 	}
 
-	@Override
-	public List<Employee> getEmployeeList() {
-		// TODO Auto-generated method stub
-		return (List<Employee>) mongoTemplate.findAll(Employee.class,"employee");
+	public List<User> getEmployeeList()
+	{
+ 		Query query = new Query();
+		query.addCriteria(
+		Criteria.where("role").is("admin"));
+		
+		List<User> result = mongoTemplate.find(query, User.class);
+		System.out.println("test :" + result);
+		return result;
 	}
 
 	@Override
-	public Employee findEmployeeId(String employeeId)
+	public User findEmployeeId(String employeeId)
 	{
 		Query query = new Query(Criteria.where("employeeId").is(employeeId));
 		
 		System.out.println("test " + query);
  
      // Return user object.
-        return   mongoTemplate.findOne(query, Employee.class,Collection_Name);
+        return   mongoTemplate.findOne(query, User.class,Collection_Name);
  
 	}
 	
 	@Override
-	public boolean updateEmployee(String employeeId,Employee employee)
+	public boolean updateEmployee(String employeeId,EmployeeDetail employeeDetail)
 	{
 		boolean status=false;
 		try {
 			 status=true;  
 			 BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 		        
-			 employee.setPassword(bCryptPasswordEncoder.encode(employee.getPassword()));
+			 employeeDetail.setPassword(bCryptPasswordEncoder.encode(employeeDetail.getPassword()));
 				
-				mongoTemplate.save(employee, Collection_Name);
+				mongoTemplate.save(employeeDetail, Collection_Name);
 		} catch (Exception e) {
 			// TODO: handle exception
 			e.printStackTrace();
@@ -113,9 +122,9 @@ public class EmployeeDaoImp  implements EmployeeDao{
 
 	public void sendEmailEmployee(Object object) {
 		 
-        Employee employee = (Employee) object;
+        EmployeeDetail employeeDetail = (EmployeeDetail) object;
  
-        MimeMessagePreparator preparator = getMessagePreparator(employee);
+        MimeMessagePreparator preparator = getMessagePreparator(employeeDetail);
  
         try {
             mailSender.send(preparator);
@@ -125,16 +134,16 @@ public class EmployeeDaoImp  implements EmployeeDao{
         }
     }
 	
-    private MimeMessagePreparator getMessagePreparator(final Employee employee) {
+    private MimeMessagePreparator getMessagePreparator(final EmployeeDetail employeeDetail) {
     	 
         MimeMessagePreparator preparator = new MimeMessagePreparator() {
  
             public void prepare(MimeMessage mimeMessage) throws Exception {
 //                mimeMessage.setFrom("customerserivces@yourshop.com");
                 mimeMessage.setRecipient(Message.RecipientType.TO,
-                        new InternetAddress(employee.getEmailId()));
-                mimeMessage.setText("Hello : "+employee.getFirstName());
-                mimeMessage.setText("  User Name :  " + employee.getEmailId() +"  And  Password : " + employee.getPassword() );
+                        new InternetAddress(employeeDetail.getEmailId()));
+                mimeMessage.setText("Hello : "+employeeDetail.getFirstName());
+                mimeMessage.setText("  User Name :  " + employeeDetail.getEmailId() +"  And  Password : " + employeeDetail.getPassword() );
                 mimeMessage.setSubject("Your user name And Password");
             }
         };

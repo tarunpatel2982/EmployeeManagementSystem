@@ -13,8 +13,8 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.emp.dao.implementation.EmployeeDaoImp;
-import com.emp.entity.Admin;
-import com.emp.entity.Employee;
+import com.emp.entity.User;
+import com.emp.entity.EmployeeDetail;
 
 
 @RestController
@@ -25,28 +25,30 @@ public class EmployeeController {
 	EmployeeDaoImp employeeDaoImp;
 	
 	@RequestMapping(value = "/addEmp",method = RequestMethod.POST)
-	 public boolean addUser(@RequestBody Employee employee)
+	 public boolean addUser(@RequestBody User user)
 	 {
 		System.out.println("addd ");
-		  return employeeDaoImp.addEmployee(employee);
+		  return employeeDaoImp.addEmployee(user);
 		 
 	 }
 	@RequestMapping(value = "/getEmp",method = RequestMethod.GET)
-	 public List<Employee> getData(){
+	 public List<User> getEmployeeList(){
 		 return employeeDaoImp.getEmployeeList();
 	 }
 	
+	
+	
 	@GetMapping("/editEmp/{AdminId}")
-    public Employee editEmployee(@PathVariable("employeeId") String employeeId ) {
+    public User editEmployee(@PathVariable("employeeId") String employeeId ) {
             System.out.println("test" + employeeId);
         return  employeeDaoImp.findEmployeeId(employeeId);
     }
   	
 	@PutMapping("/updateEmp/{employeeId}")
-    public Boolean updateAdmin(@PathVariable("employeeId") String employeeId, @RequestBody Employee employee ) {
+    public Boolean updateAdmin(@PathVariable("employeeId") String employeeId, @RequestBody EmployeeDetail employeeDetail ) {
             System.out.println("test" + employeeId);
           
-        return  employeeDaoImp.updateEmployee(employeeId, employee);
+        return  employeeDaoImp.updateEmployee(employeeId, employeeDetail);
     }
 	
 }

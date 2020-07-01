@@ -4,7 +4,7 @@ import java.util.Date;
 
 import org.springframework.data.annotation.Id;
 
-public class Employee {
+public class EmployeeDetail {
 	
 	@Id
 	private String id;

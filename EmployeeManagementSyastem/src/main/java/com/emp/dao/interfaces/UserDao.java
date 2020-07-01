@@ -2,7 +2,7 @@ package com.emp.dao.interfaces;
 
 import javax.servlet.http.HttpSession;
 
-import com.emp.entity.Admin;
+import com.emp.entity.User;
 
 public interface UserDao {
 
@@ -11,10 +11,10 @@ public interface UserDao {
 	
 	
 	public Boolean createAdminUser();
-	public Admin findUserId(String adminId);
-	public boolean update(String adminId,Admin admin);
-	public Boolean addAdmin(Admin admin);
+	public User findUserId(String adminId);
+	public boolean update(String adminId,User user);
+//	public Boolean addAdmin(User user);
 //	public Boolean deleteUser(String id);
-	public String adminLogin(String emailId , String password);  
+	public User adminLogin(String emailId , String password);  
       
 }
