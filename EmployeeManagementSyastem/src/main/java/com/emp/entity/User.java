@@ -9,6 +9,8 @@ public class User {
 	@Id
 	private String Id;
 	private String userId;
+	private String adminId;
+	
 	private String firstName;
 	private String middleName;
 	private String lastName;
@@ -18,6 +20,13 @@ public class User {
 	private Date birthDate;
 	private String role;
 	private String password;
+	
+	public String getAdminId() {
+		return adminId;
+	}
+	public void setAdminId(String adminId) {
+		this.adminId = adminId;
+	}
 	public String getId() {
 		return Id;
 	}

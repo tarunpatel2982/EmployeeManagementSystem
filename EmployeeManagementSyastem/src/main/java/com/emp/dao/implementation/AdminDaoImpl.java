@@ -47,6 +47,7 @@ public class AdminDaoImpl {
 					user.setUserId(UUID.randomUUID().toString());
 					user.setRole("admin");
 					user.setPassword(UUID.randomUUID().toString());
+					System.out.println("admin password : " + user.getPassword());
 					
 //					sendEmailAdmin(user);
 					
@@ -83,7 +84,28 @@ public class AdminDaoImpl {
 			return result;
 		}
 	 
-	 
+	 	public Boolean deleteAdmin(String userId) {
+			boolean status = false;
+			
+			// TODO Auto-generated method stub
+			try {
+				
+//				DBObject query = new BasicDBObject();
+//				query.put("id", id);
+				
+				mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), User.class, "user");
+				status=true;
+				System.out.println("delete");
+			} catch (Exception e) {
+				// TODO: handle exception
+				status = false;
+				e.printStackTrace();
+			}
+			
+			return status;
+		}
+		
+		
 		public void sendEmailAdmin(Object object) {
 			 
 	        User user = (User) object;

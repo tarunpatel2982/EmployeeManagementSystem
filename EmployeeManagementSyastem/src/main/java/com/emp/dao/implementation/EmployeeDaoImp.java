@@ -19,6 +19,7 @@ import org.springframework.stereotype.Repository;
 
 import com.emp.dao.interfaces.EmployeeDao;
 import com.emp.entity.EmployeeDetail;
+import com.emp.entity.EmployeeWorkDetail;
 import com.emp.entity.User;
 
 
@@ -80,11 +81,38 @@ public class EmployeeDaoImp  implements EmployeeDao{
 	{
  		Query query = new Query();
 		query.addCriteria(
-		Criteria.where("role").is("admin"));
+		Criteria.where("role").is("employee"));
 		
 		List<User> result = mongoTemplate.find(query, User.class);
 		System.out.println("test :" + result);
 		return result;
+	}
+
+	public Boolean addWork(EmployeeWorkDetail  employeeWorkDetail)
+	{
+		boolean status = false;
+		try {
+			
+			mongoTemplate.insert( employeeWorkDetail , "employeeWorkDetail");
+			status = true;
+		} catch (Exception e) {
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return status;
+	}
+	
+	
+	
+	public EmployeeWorkDetail getWorkDetail(String employeeId)
+	{
+		Query query = new Query(Criteria.where("employeeId").is(employeeId));
+		
+		System.out.println("test " + query);
+ 
+     // Return user object.
+        return   mongoTemplate.findOne(query, EmployeeWorkDetail.class,"employeeWorkDetail");
+ 
 	}
 
 	@Override

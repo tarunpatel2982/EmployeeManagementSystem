@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.emp.dao.implementation.EmployeeDaoImp;
 import com.emp.entity.User;
 import com.emp.entity.EmployeeDetail;
+import com.emp.entity.EmployeeWorkDetail;
 
 
 @RestController
@@ -24,21 +25,33 @@ public class EmployeeController {
 	@Autowired
 	EmployeeDaoImp employeeDaoImp;
 	
-	@RequestMapping(value = "/addEmp",method = RequestMethod.POST)
+	@RequestMapping(value = "/addEmployee",method = RequestMethod.POST)
 	 public boolean addUser(@RequestBody User user)
 	 {
 		System.out.println("addd ");
 		  return employeeDaoImp.addEmployee(user);
 		 
 	 }
-	@RequestMapping(value = "/getEmp",method = RequestMethod.GET)
+	@RequestMapping(value = "/getEmployeelist",method = RequestMethod.GET)
 	 public List<User> getEmployeeList(){
 		 return employeeDaoImp.getEmployeeList();
 	 }
 	
+	@RequestMapping(value = "/addWorkDetail",method = RequestMethod.POST)
+	 public boolean addUser(@RequestBody EmployeeWorkDetail employeeWorkDetail)
+	 {
+		System.out.println("addd ");
+		  return employeeDaoImp.addWork(employeeWorkDetail);
+		 
+	 }
 	
+	@GetMapping("/getEmployeeWork/{employeeId}")
+    public EmployeeWorkDetail getWorkDetail(@PathVariable("employeeId") String employeeId ) {
+            System.out.println("test" + employeeId);
+        return  employeeDaoImp.getWorkDetail(employeeId);
+    }
 	
-	@GetMapping("/editEmp/{AdminId}")
+	@GetMapping("/getEmp/{employeeId}")
     public User editEmployee(@PathVariable("employeeId") String employeeId ) {
             System.out.println("test" + employeeId);
         return  employeeDaoImp.findEmployeeId(employeeId);

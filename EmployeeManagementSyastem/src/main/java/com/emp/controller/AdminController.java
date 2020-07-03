@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -32,5 +34,12 @@ public class AdminController {
 	 public List<User> getAdminList(){
 		 return adminDaoImpl.getAdminList();
 	 }
+	
+	 @DeleteMapping("/deleteAdmin/{userId}")
+		public String deleteAdmin(@PathVariable("userId") String userId ) {
+		 adminDaoImpl.deleteAdmin(userId);
+			return userId;
+			
+		}
 	
 }
