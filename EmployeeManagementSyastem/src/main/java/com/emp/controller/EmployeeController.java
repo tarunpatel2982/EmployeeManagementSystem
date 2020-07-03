@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -38,17 +39,22 @@ public class EmployeeController {
 	 }
 	
 	@RequestMapping(value = "/addWorkDetail",method = RequestMethod.POST)
-	 public boolean addUser(@RequestBody EmployeeWorkDetail employeeWorkDetail)
+	 public boolean addWorkDetail(@RequestBody EmployeeWorkDetail employeeWorkDetail)
 	 {
 		System.out.println("addd ");
 		  return employeeDaoImp.addWork(employeeWorkDetail);
 		 
 	 }
 	
-	@GetMapping("/getEmployeeWork/{employeeId}")
-    public EmployeeWorkDetail getWorkDetail(@PathVariable("employeeId") String employeeId ) {
-            System.out.println("test" + employeeId);
-        return  employeeDaoImp.getWorkDetail(employeeId);
+	@GetMapping("/getEmployeeWork")
+    public List<EmployeeWorkDetail> getWorkDetail( ) {
+            
+        return  employeeDaoImp.getWorkDetail();
+    }
+	@GetMapping("/getEmployeeWorkForAdmin")
+    public List<EmployeeWorkDetail> getWorkDetailForAdmin( ) {
+//            System.out.println("test" + employeeId);
+        return  employeeDaoImp.getWorkDetailForAdmin();
     }
 	
 	@GetMapping("/getEmp/{employeeId}")

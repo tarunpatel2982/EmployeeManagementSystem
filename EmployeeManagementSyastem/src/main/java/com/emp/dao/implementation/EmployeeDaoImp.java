@@ -104,14 +104,17 @@ public class EmployeeDaoImp  implements EmployeeDao{
 	
 	
 	
-	public EmployeeWorkDetail getWorkDetail(String employeeId)
+	public List<EmployeeWorkDetail> getWorkDetail()
 	{
-		Query query = new Query(Criteria.where("employeeId").is(employeeId));
 		
-		System.out.println("test " + query);
- 
      // Return user object.
-        return   mongoTemplate.findOne(query, EmployeeWorkDetail.class,"employeeWorkDetail");
+        return   mongoTemplate.findAll(EmployeeWorkDetail.class,"employeeWorkDetail");
+ 
+	}
+	public List<EmployeeWorkDetail> getWorkDetailForAdmin()
+	{
+     // Return user object.
+        return   mongoTemplate.findAll( EmployeeWorkDetail.class,"employeeWorkDetail");
  
 	}
 
