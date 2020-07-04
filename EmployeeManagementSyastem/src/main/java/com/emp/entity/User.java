@@ -15,12 +15,20 @@ public class User {
 	private String middleName;
 	private String lastName;
 	private String address;
-	private String mobilNo;
+	private String phoneNo;
+	
 	private String emailId;
 	private Date birthDate;
 	private String role;
 	private String password;
+	private String date;
 	
+	public String getDate() {
+		return date;
+	}
+	public void setDate(String date) {
+		this.date = date;
+	}
 	public String getAdminId() {
 		return adminId;
 	}
@@ -49,7 +57,7 @@ public class User {
 		return middleName;
 	}
 	public void setMiddleName(String middleName) {
-		this.middleName = middleName;
+		this.middleName 	= middleName;
 	}
 	public String getLastName() {
 		return lastName;
@@ -62,12 +70,6 @@ public class User {
 	}
 	public void setAddress(String address) {
 		this.address = address;
-	}
-	public String getMobilNo() {
-		return mobilNo;
-	}
-	public void setMobilNo(String mobilNo) {
-		this.mobilNo = mobilNo;
 	}
 	public String getEmailId() {
 		return emailId;
@@ -94,4 +96,10 @@ public class User {
 		this.password = password;
 	}
 	
+	public String getPhoneNo() {
+		return phoneNo;
+	}
+	public void setPhoneNo(String phoneNo) {
+		this.phoneNo = phoneNo;
+	}
 }

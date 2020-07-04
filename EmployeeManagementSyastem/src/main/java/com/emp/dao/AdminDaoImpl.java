@@ -1,4 +1,4 @@
-package com.emp.dao.implementation;
+package com.emp.dao;
 
 import java.util.List;
 import java.util.UUID;
@@ -20,17 +20,18 @@ import org.springframework.stereotype.Repository;
 import com.emp.entity.User;
 
 @Repository
-public class AdminDaoImpl {
+public class AdminDaoImpl implements AdminDao {
 
-	@Autowired
+	@Autowired(required=true)
 	MongoTemplate mongoTemplate;
 	
 	@Autowired
     JavaMailSender mailSender;
 
 	 private static String Collection_Name ="user";
-	 
+	 @Override
 	 public Boolean addAdmin(User user) {
+		 
 			// TODO Auto-generated method stub
 			boolean output = false;
 			User status;
@@ -72,7 +73,7 @@ public class AdminDaoImpl {
 			}
 			return output;
 		}
-
+	 @Override
 	 	public List<User> getAdminList()
 		{
 	 		Query query = new Query();
@@ -83,7 +84,7 @@ public class AdminDaoImpl {
 			System.out.println("test :" + result);
 			return result;
 		}
-	 
+	 @Override
 	 	public Boolean deleteAdmin(String userId) {
 			boolean status = false;
 			

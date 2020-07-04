@@ -11,7 +11,7 @@ public class EmployeeWorkDetail {
 	private String id;
 	private String workID;
 	private String employeeId;
-	private Date workDate;
+	private String workDate;
 	private String workDetail;
 	public String getId() {
 		return id;
@@ -31,10 +31,11 @@ public class EmployeeWorkDetail {
 	public void setEmployeeId(String employeeId) {
 		this.employeeId = employeeId;
 	}
-	public Date getWorkDate() {
+	
+	public String getWorkDate() {
 		return workDate;
 	}
-	public void setWorkDate(Date workDate) {
+	public void setWorkDate(String workDate) {
 		this.workDate = workDate;
 	}
 	public String getWorkDetail() {

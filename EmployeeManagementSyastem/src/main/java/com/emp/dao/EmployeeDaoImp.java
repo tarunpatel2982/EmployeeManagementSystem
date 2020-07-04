@@ -1,4 +1,4 @@
-package com.emp.dao.implementation;
+package com.emp.dao;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,14 +17,12 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
-import com.emp.dao.interfaces.EmployeeDao;
-import com.emp.entity.EmployeeDetail;
 import com.emp.entity.EmployeeWorkDetail;
 import com.emp.entity.User;
 
 
 @Repository
-public class EmployeeDaoImp  implements EmployeeDao{
+public class EmployeeDaoImp implements EmployeeDao {
 
 	
 	@Autowired
@@ -35,7 +33,7 @@ public class EmployeeDaoImp  implements EmployeeDao{
 
 	 private static String Collection_Name ="user";
 	
-	@Override
+	 @Override
 	public Boolean addEmployee(User user) 
 	{
 		// TODO Auto-generated method stub
@@ -43,7 +41,8 @@ public class EmployeeDaoImp  implements EmployeeDao{
 		
 		
 		
-			
+		 System.out.println("test date  : " + user.getFirstName());
+		
 			Query query = new Query();
 			User user1 = mongoTemplate.findOne(query.addCriteria(
 					Criteria.where("emailId").is(user.getEmailId())), User.class);
@@ -76,7 +75,7 @@ public class EmployeeDaoImp  implements EmployeeDao{
 		return output;
 
 	}
-
+	 @Override
 	public List<User> getEmployeeList()
 	{
  		Query query = new Query();
@@ -87,7 +86,7 @@ public class EmployeeDaoImp  implements EmployeeDao{
 		System.out.println("test :" + result);
 		return result;
 	}
-
+	 @Override
 	public Boolean addWork(EmployeeWorkDetail  employeeWorkDetail)
 	{
 		boolean status = false;
@@ -103,7 +102,7 @@ public class EmployeeDaoImp  implements EmployeeDao{
 	}
 	
 	
-	
+	 @Override
 	public List<EmployeeWorkDetail> getWorkDetail()
 	{
 		
@@ -111,6 +110,7 @@ public class EmployeeDaoImp  implements EmployeeDao{
         return   mongoTemplate.findAll(EmployeeWorkDetail.class,"employeeWorkDetail");
  
 	}
+	 @Override
 	public List<EmployeeWorkDetail> getWorkDetailForAdmin()
 	{
      // Return user object.
@@ -118,68 +118,68 @@ public class EmployeeDaoImp  implements EmployeeDao{
  
 	}
 
-	@Override
-	public User findEmployeeId(String employeeId)
-	{
-		Query query = new Query(Criteria.where("employeeId").is(employeeId));
-		
-		System.out.println("test " + query);
- 
-     // Return user object.
-        return   mongoTemplate.findOne(query, User.class,Collection_Name);
- 
-	}
 	
-	@Override
-	public boolean updateEmployee(String employeeId,EmployeeDetail employeeDetail)
-	{
-		boolean status=false;
-		try {
-			 status=true;  
-			 BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
-		        
-			 employeeDetail.setPassword(bCryptPasswordEncoder.encode(employeeDetail.getPassword()));
-				
-				mongoTemplate.save(employeeDetail, Collection_Name);
-		} catch (Exception e) {
-			// TODO: handle exception
-			e.printStackTrace();
-		}
-		return status;  
-		
-	}
+//	public User findEmployeeId(String employeeId)
+//	{
+//		Query query = new Query(Criteria.where("employeeId").is(employeeId));
+//		
+//		System.out.println("test " + query);
+// 
+//     // Return user object.
+//        return   mongoTemplate.findOne(query, User.class,Collection_Name);
+// 
+//	}
+//	
+//	
+//	public boolean updateEmployee(String employeeId,EmployeeDetail employeeDetail)
+//	{
+//		boolean status=false;
+//		try {
+//			 status=true;  
+//			 BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+//		        
+//			 employeeDetail.setPassword(bCryptPasswordEncoder.encode(employeeDetail.getPassword()));
+//				
+//				mongoTemplate.save(employeeDetail, Collection_Name);
+//		} catch (Exception e) {
+//			// TODO: handle exception
+//			e.printStackTrace();
+//		}
+//		return status;  
+//		
+//	}
+//
 
-
-
-	public void sendEmailEmployee(Object object) {
-		 
-        EmployeeDetail employeeDetail = (EmployeeDetail) object;
- 
-        MimeMessagePreparator preparator = getMessagePreparator(employeeDetail);
- 
-        try {
-            mailSender.send(preparator);
-            System.out.println("Message Send...Hurrey");
-        } catch (MailException ex) {
-            System.err.println(ex.getMessage());
-        }
-    }
-	
-    private MimeMessagePreparator getMessagePreparator(final EmployeeDetail employeeDetail) {
-    	 
-        MimeMessagePreparator preparator = new MimeMessagePreparator() {
- 
-            public void prepare(MimeMessage mimeMessage) throws Exception {
-//                mimeMessage.setFrom("customerserivces@yourshop.com");
-                mimeMessage.setRecipient(Message.RecipientType.TO,
-                        new InternetAddress(employeeDetail.getEmailId()));
-                mimeMessage.setText("Hello : "+employeeDetail.getFirstName());
-                mimeMessage.setText("  User Name :  " + employeeDetail.getEmailId() +"  And  Password : " + employeeDetail.getPassword() );
-                mimeMessage.setSubject("Your user name And Password");
-            }
-        };
-        return preparator;
-    }
+//
+//	public void sendEmailEmployee(Object object) {
+//		 
+//        EmployeeDetail employeeDetail = (EmployeeDetail) object;
+// 
+//        MimeMessagePreparator preparator = getMessagePreparator(employeeDetail);
+// 
+//        try {
+//            mailSender.send(preparator);
+//            System.out.println("Message Send...Hurrey");
+//        } catch (MailException ex) {
+//            System.err.println(ex.getMessage());
+//        }
+//    }
+//	
+//    private MimeMessagePreparator getMessagePreparator(final EmployeeDetail employeeDetail) {
+//    	 
+//        MimeMessagePreparator preparator = new MimeMessagePreparator() {
+// 
+//            public void prepare(MimeMessage mimeMessage) throws Exception {
+////                mimeMessage.setFrom("customerserivces@yourshop.com");
+//                mimeMessage.setRecipient(Message.RecipientType.TO,
+//                        new InternetAddress(employeeDetail.getEmailId()));
+//                mimeMessage.setText("Hello : "+employeeDetail.getFirstName());
+//                mimeMessage.setText("  User Name :  " + employeeDetail.getEmailId() +"  And  Password : " + employeeDetail.getPassword() );
+//                mimeMessage.setSubject("Your user name And Password");
+//            }
+//        };
+//        return preparator;
+//    }
 
 
 	
