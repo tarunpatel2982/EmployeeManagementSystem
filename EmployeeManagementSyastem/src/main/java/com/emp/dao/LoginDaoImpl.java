@@ -21,33 +21,33 @@ public class LoginDaoImpl implements LoginDao{
 	 @Override
 		public User userLogin(String emailId, String password) {
 			// TODO Auto-generated method stub
-			System.out.println("test user name : " + emailId);
+//			System.out.println("test user name : " + emailId);
 			try {
 				Query query = new Query();
 				User user = mongoTemplate.findOne(query.addCriteria(
 						Criteria.where("emailId").is(emailId)), User.class);
-				System.out.println("test adminDetail : " + user);
+//				System.out.println("test adminDetail : " + user);
 				
 				if( user != null)
 				{
-					System.out.println("contorller password: " + password);
+//					System.out.println("contorller password: " + password);
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 					if(bCryptPasswordEncoder.matches( password, user.getPassword()))
 					{
 						
-						System.out.println("Login");
+//						System.out.println("Login");
 						return user;
 					}
 					else
 					{
-						System.out.println("not login");
+//						System.out.println("not login");
 						return null;
 					}
 					
 				}
 				else
 				{
-				System.out.println("admin null");
+//				System.out.println("admin null");
 					return null;
 				}
 				

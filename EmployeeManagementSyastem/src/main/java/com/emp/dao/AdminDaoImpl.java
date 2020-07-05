@@ -41,15 +41,15 @@ public class AdminDaoImpl implements AdminDao {
 				status = mongoTemplate.findOne(query.addCriteria(
 						Criteria.where("emailId").is(user.getEmailId())), User.class);
 				
-				System.out.println("test adminDetail : " + user);
-				System.out.println( "test status " + status);
+//				System.out.println("test adminDetail : " + user);
+//				System.out.println( "test status " + status);
 				if(status == null)
 				{
 					user.setUserId(UUID.randomUUID().toString());
 					user.setRole("admin");
 					user.setPassword(UUID.randomUUID().toString());
 					System.out.println("admin password : " + user.getPassword());
-					
+					//send mail for user
 //					sendEmailAdmin(user);
 					
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
@@ -81,7 +81,7 @@ public class AdminDaoImpl implements AdminDao {
 			Criteria.where("role").is("admin"));
 			
 			List<User> result = mongoTemplate.find(query, User.class);
-			System.out.println("test :" + result);
+//			System.out.println("test :" + result);
 			return result;
 		}
 	 @Override
@@ -96,7 +96,7 @@ public class AdminDaoImpl implements AdminDao {
 				
 				mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), User.class, "user");
 				status=true;
-				System.out.println("delete");
+//				System.out.println("delete");
 			} catch (Exception e) {
 				// TODO: handle exception
 				status = false;
@@ -115,7 +115,7 @@ public class AdminDaoImpl implements AdminDao {
 	 
 	        try {
 	            mailSender.send(preparator);
-	            System.out.println("Message Send...Hurrey");
+//	           
 	        } catch (MailException ex) {
 	            System.err.println(ex.getMessage());
 	        }
@@ -126,7 +126,7 @@ public class AdminDaoImpl implements AdminDao {
 	        MimeMessagePreparator preparator = new MimeMessagePreparator() {
 	 
 	            public void prepare(MimeMessage mimeMessage) throws Exception {
-//	                mimeMessage.setFrom("customerserivces@yourshop.com");
+//	              
 	                mimeMessage.setRecipient(Message.RecipientType.TO,
 	                        new InternetAddress(user.getEmailId()));
 	                mimeMessage.setText("User Name " + user.getEmailId() +" Password " + user.getPassword() );

@@ -28,19 +28,18 @@ public class LoginController {
       // Authenticate User.  
       status =  loginServiceImpl.userLogin(user.getEmailId(), user.getPassword());  
       
-		 System.out.println("test 1 "+ user);
-//		 AdminDetail adminDetail2 = admin.adminLogin(adminDetail.getEmailId(),adminDetail.getPassword());
+//		 System.out.println("test 1 "+ user);
 		
-		 System.out.println("test status : " + status);
+//		 System.out.println("test status : " + status);
 		 if (status != null)   
 		 {
-			 System.out.println("if");
+//			 System.out.println("if");
 			 return new ResponseEntity<User>(status,  HttpStatus.OK);
 				
 		 }
 		 else
 		 {
-			 System.out.println("else tse");
+//			 System.out.println("else tse");
 			 return new ResponseEntity<User>(status,  HttpStatus.OK);
 				
 				

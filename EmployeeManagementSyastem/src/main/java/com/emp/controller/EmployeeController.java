@@ -29,7 +29,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/addEmployee",method = RequestMethod.POST)
 	 public boolean addUser(@RequestBody User user)
 	 {
-		System.out.println("addd " + user.getPhoneNo());
+//		System.out.println("addd " + user.getPhoneNo());
 		  return employeeServiceImpl.addEmployee(user);
 		 
 	 }
@@ -41,7 +41,7 @@ public class EmployeeController {
 	@RequestMapping(value = "/addWorkDetail",method = RequestMethod.POST)
 	 public boolean addWorkDetail(@RequestBody EmployeeWorkDetail employeeWorkDetail)
 	 {
-		System.out.println("addd ");
+//		System.out.println("addd ");
 		  return employeeServiceImpl.addWork(employeeWorkDetail);
 		 
 	 }
@@ -56,18 +56,5 @@ public class EmployeeController {
 //            System.out.println("test" + employeeId);
         return  employeeServiceImpl.getWorkDetailForAdmin();
     }
-	
-//	@GetMapping("/getEmp/{employeeId}")
-//    public User editEmployee(@PathVariable("employeeId") String employeeId ) {
-//            System.out.println("test" + employeeId);
-//        return  employeeDaoImp.findEmployeeId(employeeId);
-//    }
-//  	
-//	@PutMapping("/updateEmp/{employeeId}")
-//    public Boolean updateAdmin(@PathVariable("employeeId") String employeeId, @RequestBody EmployeeDetail employeeDetail ) {
-//            System.out.println("test" + employeeId);
-//          
-//        return  employeeDaoImp.updateEmployee(employeeId, employeeDetail);
-//    }
-	
+
 }

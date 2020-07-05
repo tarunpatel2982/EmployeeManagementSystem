@@ -26,7 +26,7 @@ public class AdminController {
 	@RequestMapping(value = "/addAdmin",method = RequestMethod.POST)
 	 public boolean addUser(@RequestBody User user)
 	 {
-		System.out.println("addd ");
+//		System.out.println("addd ");
 		
 		  return adminServiceImpl.addAdmin(user);
 		 
