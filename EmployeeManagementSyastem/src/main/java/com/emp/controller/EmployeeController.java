@@ -4,6 +4,7 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,6 +39,13 @@ public class EmployeeController {
 		 return employeeServiceImpl.getEmployeeList();
 	 }
 	
+	 @DeleteMapping("/deleteEmployee/{userId}")
+		public String deleteEmployee(@PathVariable("userId") String userId ) {
+		 employeeServiceImpl.deleteEmployee(userId);
+			return userId;
+			
+		} 
+	 
 	@RequestMapping(value = "/addWorkDetail",method = RequestMethod.POST)
 	 public boolean addWorkDetail(@RequestBody EmployeeWorkDetail employeeWorkDetail)
 	 {

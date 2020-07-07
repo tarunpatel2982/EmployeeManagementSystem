@@ -110,6 +110,8 @@ public class AdminDaoImpl implements AdminDao {
 				
 				
 				mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), User.class, "user");
+				mongoTemplate.remove(new Query(Criteria.where("adminId").is(userId)), User.class, "user");
+				
 				status=true;
 //				System.out.println("delete");
 			} catch (Exception e) {

@@ -11,5 +11,6 @@ public interface EmployeeService {
 	public List<User> getEmployeeList();
 	public Boolean addWork(EmployeeWorkDetail  employeeWorkDetail);
 	public List<EmployeeWorkDetail> getWorkDetail();
+	public Boolean deleteEmployee(String userId) ;
 	 
 }

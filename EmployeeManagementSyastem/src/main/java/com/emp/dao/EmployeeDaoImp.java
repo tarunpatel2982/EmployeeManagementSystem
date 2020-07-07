@@ -96,6 +96,29 @@ public class EmployeeDaoImp implements EmployeeDao {
 		return result;
 	}
 	 
+	 
+	 @Override
+		public Boolean deleteEmployee(String userId) {
+			// TODO Auto-generated method stub
+		 boolean status = false;
+			
+			// TODO Auto-generated method stub
+			try {
+				
+				
+				mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), User.class, "user");
+				mongoTemplate.remove(new Query(Criteria.where("employeeId").is(userId)), EmployeeWorkDetail.class, "employeeWorkDetail");
+				
+				status=true;
+//				System.out.println("delete");
+			} catch (Exception e) {
+				// TODO: handle exception
+				status = false;
+				e.printStackTrace();
+			}
+			
+			return status;
+		}
 //	 Add Employee Work
 	 @Override
 	public Boolean addWork(EmployeeWorkDetail  employeeWorkDetail)
@@ -155,5 +178,6 @@ public class EmployeeDaoImp implements EmployeeDao {
 	        };
 	        return preparator;
 	    }
+		
 		
 }

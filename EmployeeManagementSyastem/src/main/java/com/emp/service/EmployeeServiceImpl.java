@@ -16,29 +16,36 @@ public class EmployeeServiceImpl implements EmployeeService{
 	
 	@Autowired
 	EmployeeDaoImp employeeDaoImp;
-	@Transactional
+	
 	@Override
 	public Boolean addEmployee(User user) {
 		// TODO Auto-generated method stub
 		return employeeDaoImp.addEmployee(user);
 	}
-	@Transactional
+	
 	@Override
 	public List<User> getEmployeeList() {
 		// TODO Auto-generated method stub
 		return employeeDaoImp.getEmployeeList();
 	}
-	@Transactional
+	
+	@Override
+	public Boolean deleteEmployee(String userId) {
+		// TODO Auto-generated method stub
+		return employeeDaoImp.deleteEmployee(userId);
+	}
+	
 	@Override
 	public Boolean addWork(EmployeeWorkDetail employeeWorkDetail) {
 		// TODO Auto-generated method stub
 		return employeeDaoImp.addWork(employeeWorkDetail);
 	}
-	@Transactional
+	
 	@Override
 	public List<EmployeeWorkDetail> getWorkDetail() {
 		// TODO Auto-generated method stub
 		return employeeDaoImp.getWorkDetail();
 	}
+	
 	
 }
