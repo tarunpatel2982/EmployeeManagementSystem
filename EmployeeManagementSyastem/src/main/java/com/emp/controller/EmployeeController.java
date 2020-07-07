@@ -51,10 +51,8 @@ public class EmployeeController {
             
         return  employeeServiceImpl.getWorkDetail();
     }
-	@GetMapping("/getEmployeeWorkForAdmin")
-    public List<EmployeeWorkDetail> getWorkDetailForAdmin( ) {
-//            System.out.println("test" + employeeId);
-        return  employeeServiceImpl.getWorkDetailForAdmin();
-    }
+	
+	
+
 
 }

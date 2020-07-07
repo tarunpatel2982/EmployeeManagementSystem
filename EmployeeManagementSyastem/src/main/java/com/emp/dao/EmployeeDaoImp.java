@@ -30,9 +30,9 @@ public class EmployeeDaoImp implements EmployeeDao {
 	
 	@Autowired
     JavaMailSender mailSender;
-
+//Collection Name
 	 private static String Collection_Name ="user";
-	
+//	Add New Employee
 	 @Override
 	public Boolean addEmployee(User user) 
 	{
@@ -48,21 +48,29 @@ public class EmployeeDaoImp implements EmployeeDao {
 					Criteria.where("emailId").is(user.getEmailId())), User.class);
 			
 //			System.out.println("test adminDetail : " + user);
+//		this condition is true add new Employee
 			if(user1 == null)
 				{
 					
+//				Automatically Create a EmployeeId
 					String empId = UUID.randomUUID().toString();
 					user.setUserId(empId);
 					user.setRole("employee");
+					
+//					Automatically Create a Password
 					String pass = UUID.randomUUID().toString();
 					user.setPassword(pass);
 					
 					System.out.println("get password " + user.getPassword());
-				//send mail for user
+					
+//				send mail for Employee And Mail In mantion UserName and PAssword
 //					sendEmailEmployee(user);
+					
+//					Encrypted Password  and store in mongoDb
+					
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 					user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
-					
+//					Insert Data in mongoDb
 					mongoTemplate.insert(user, Collection_Name);
 									output=true;
 				}
@@ -75,6 +83,7 @@ public class EmployeeDaoImp implements EmployeeDao {
 		return output;
 
 	}
+//	 Get Employee List
 	 @Override
 	public List<User> getEmployeeList()
 	{
@@ -86,12 +95,18 @@ public class EmployeeDaoImp implements EmployeeDao {
 //		System.out.println("test :" + result);
 		return result;
 	}
+	 
+//	 Add Employee Work
 	 @Override
 	public Boolean addWork(EmployeeWorkDetail  employeeWorkDetail)
 	{
 		boolean status = false;
 		try {
 			
+//			Automatically Created WorkID
+			employeeWorkDetail.setWorkID(UUID.randomUUID().toString());  
+			
+//			Insert EmployeeWorkDetail
 			mongoTemplate.insert( employeeWorkDetail , "employeeWorkDetail");
 			status = true;
 		} catch (Exception e) {
@@ -101,7 +116,7 @@ public class EmployeeDaoImp implements EmployeeDao {
 		return status;
 	}
 	
-	
+//	Get Employee Work Detail
 	 @Override
 	public List<EmployeeWorkDetail> getWorkDetail()
 	{
@@ -110,15 +125,9 @@ public class EmployeeDaoImp implements EmployeeDao {
         return   mongoTemplate.findAll(EmployeeWorkDetail.class,"employeeWorkDetail");
  
 	}
-	 @Override
-	public List<EmployeeWorkDetail> getWorkDetailForAdmin()
-	{
-     // Return user object.
-        return   mongoTemplate.findAll( EmployeeWorkDetail.class,"employeeWorkDetail");
- 
-	}
+	
 	 
-		
+//		Send Email For Employee Create New Employee time
 		public void sendEmailEmployee(Object object) {
 			 
 	        User user = (User) object;
@@ -146,4 +155,5 @@ public class EmployeeDaoImp implements EmployeeDao {
 	        };
 	        return preparator;
 	    }
+		
 }

@@ -30,6 +30,7 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 
 	 private static String Collection_Name ="user";
 
+//	 Create A SuperAdmin User
 	 @Override
 	 public Boolean createSuperAdminUser() 
 		{
@@ -38,6 +39,7 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 				
 				User user = new User();
 				
+//				Check The Collection Are Exist.
 				if(!mongoTemplate.collectionExists(User.class))
 				{
 					mongoTemplate.createCollection(User.class);
@@ -54,7 +56,7 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 				return output;
 		
 		}
-		
+//		Collection Are not Exist time call this method and create a SuperAdmin
 		public void ins(boolean output)
 		{
 //			System.out.println("call ins() method");
@@ -70,9 +72,13 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 						
 							User user = new User();	
 							System.out.println("Insert Data ");
+							
+//							Create A userId Automatically
 							user.setUserId(UUID.randomUUID().toString());
 							user.setRole("superAdmin");
 							user.setEmailId("taruntest0001@gmail.com");
+							
+//							Password Encrypted
 							BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 				        
 							user.setPassword(bCryptPasswordEncoder.encode("admin"));
@@ -87,6 +93,8 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 				}
 
 		 }
+		
+//		Chnage Password this method using get User Object
 		@Override
 		public User findUserId(String userId)
 		{
@@ -98,7 +106,7 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 	        return   mongoTemplate.findOne(query, User.class,"user");
 	 
 		}
-
+//Password Upadte Using This Method
 		@Override
 		public Boolean changeUserPassword(String userId,User user) {
 			// TODO Auto-generated method stub
@@ -123,7 +131,7 @@ public class SuperAdminDaoImpl implements SuperAdminDao {
 		}
 		
 		
-
+//Password Change And Send Mail to EmailId in this mail mention that Change Password  
 		public void sendEmailAdmin(Object object) {
 			 
 	        User user = (User) object;

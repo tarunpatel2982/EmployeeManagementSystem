@@ -17,6 +17,7 @@ import org.springframework.mail.javamail.MimeMessagePreparator;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Repository;
 
+import com.emp.entity.EmployeeWorkDetail;
 import com.emp.entity.User;
 
 @Repository
@@ -28,12 +29,18 @@ public class AdminDaoImpl implements AdminDao {
 	@Autowired
     JavaMailSender mailSender;
 
+	//Collection name
 	 private static String Collection_Name ="user";
+	 
+	 
+//	 Create New AdminUser 
 	 @Override
 	 public Boolean addAdmin(User user) {
 		 
 			// TODO Auto-generated method stub
 			boolean output = false;
+			
+			
 			User status;
 			try {
 				
@@ -43,15 +50,21 @@ public class AdminDaoImpl implements AdminDao {
 				
 //				System.out.println("test adminDetail : " + user);
 //				System.out.println( "test status " + status);
+	
+//				Status is null then create new Admin User
 				if(status == null)
 				{
+//					automatically create a userId
 					user.setUserId(UUID.randomUUID().toString());
+					
 					user.setRole("admin");
+//					automatically create a Password
 					user.setPassword(UUID.randomUUID().toString());
 					System.out.println("admin password : " + user.getPassword());
-					//send mail for user
+//					Send Email For User In this mail UserName And Password
 //					sendEmailAdmin(user);
 					
+//					Encrypt password
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
 					
 					user.setPassword(bCryptPasswordEncoder.encode(user.getPassword()));
@@ -73,6 +86,8 @@ public class AdminDaoImpl implements AdminDao {
 			}
 			return output;
 		}
+	 
+//	 get AdminUser List 
 	 @Override
 	 	public List<User> getAdminList()
 		{
@@ -84,6 +99,8 @@ public class AdminDaoImpl implements AdminDao {
 //			System.out.println("test :" + result);
 			return result;
 		}
+	 
+//	 delete AdminUser 
 	 @Override
 	 	public Boolean deleteAdmin(String userId) {
 			boolean status = false;
@@ -91,8 +108,6 @@ public class AdminDaoImpl implements AdminDao {
 			// TODO Auto-generated method stub
 			try {
 				
-//				DBObject query = new BasicDBObject();
-//				query.put("id", id);
 				
 				mongoTemplate.remove(new Query(Criteria.where("userId").is(userId)), User.class, "user");
 				status=true;
@@ -106,7 +121,45 @@ public class AdminDaoImpl implements AdminDao {
 			return status;
 		}
 		
-		
+//	Get Employee Work Detail 	
+	 @Override
+		public List<EmployeeWorkDetail> getWorkDetailForAdmin()
+		{
+	     // Return EmployeeWorkDetail object.
+	        return   mongoTemplate.findAll( EmployeeWorkDetail.class,"employeeWorkDetail");
+	 
+		}
+	 
+//	 Find Employee WorkId 
+	 @Override
+		public EmployeeWorkDetail findWorkId(String workID)
+		{
+			Query query = new Query(Criteria.where("workID").is(workID));
+			
+			System.out.println("test123 01 " + query);
+	 
+	     // Return  EmployeeWorkDetail Object.
+	        return   mongoTemplate.findOne(query, EmployeeWorkDetail.class,"employeeWorkDetail");
+	 
+		}
+//	 Give EmployeeWork FeedBack
+	 @Override
+		public boolean employeeWorkFeedBack(EmployeeWorkDetail employeeWorkDetail) {
+			// TODO Auto-generated method stub
+		 
+		 boolean status=false;
+		 
+		 try {
+			
+			 mongoTemplate.save(employeeWorkDetail,"employeeWorkDetail" );
+			 status=true;
+		} catch (Exception e) {
+			// TODO: handle exceptione
+			e.printStackTrace();
+		}
+			return status;
+		}
+//	 Send Email From AdminUser 
 		public void sendEmailAdmin(Object object) {
 			 
 	        User user = (User) object;
@@ -115,18 +168,19 @@ public class AdminDaoImpl implements AdminDao {
 	 
 	        try {
 	            mailSender.send(preparator);
-//	           
+	           
 	        } catch (MailException ex) {
 	            System.err.println(ex.getMessage());
 	        }
 	    }
 		
+//		this Method Using set Message title ,etc.
 	    private MimeMessagePreparator getMessagePreparator(final User user) {
 	    	 
 	        MimeMessagePreparator preparator = new MimeMessagePreparator() {
 	 
 	            public void prepare(MimeMessage mimeMessage) throws Exception {
-//	              
+	              
 	                mimeMessage.setRecipient(Message.RecipientType.TO,
 	                        new InternetAddress(user.getEmailId()));
 	                mimeMessage.setText("User Name " + user.getEmailId() +" Password " + user.getPassword() );
@@ -135,6 +189,7 @@ public class AdminDaoImpl implements AdminDao {
 	        };
 	        return preparator;
 	    }
+		
 
 
 }

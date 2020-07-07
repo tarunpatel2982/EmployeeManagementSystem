@@ -40,11 +40,5 @@ public class EmployeeServiceImpl implements EmployeeService{
 		// TODO Auto-generated method stub
 		return employeeDaoImp.getWorkDetail();
 	}
-	@Transactional
-	@Override
-	public List<EmployeeWorkDetail> getWorkDetailForAdmin() {
-		// TODO Auto-generated method stub
-		return employeeDaoImp.getWorkDetailForAdmin();
-	}
-
+	
 }

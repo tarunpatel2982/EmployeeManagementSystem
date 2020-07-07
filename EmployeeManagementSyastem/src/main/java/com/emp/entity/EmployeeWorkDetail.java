@@ -13,6 +13,7 @@ public class EmployeeWorkDetail {
 	private String employeeId;
 	private String workDate;
 	private String workDetail;
+	private String workFeedBack;
 	public String getId() {
 		return id;
 	}
@@ -44,6 +45,13 @@ public class EmployeeWorkDetail {
 	public void setWorkDetail(String workDetail) {
 		this.workDetail = workDetail;
 	}
+	public String getWorkFeedBack() {
+		return workFeedBack;
+	}
+	public void setWorkFeedBack(String workFeedBack) {
+		this.workFeedBack = workFeedBack;
+	}
+	
 	
 	
 	

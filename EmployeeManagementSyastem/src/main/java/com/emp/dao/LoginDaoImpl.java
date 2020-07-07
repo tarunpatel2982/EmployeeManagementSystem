@@ -18,6 +18,7 @@ public class LoginDaoImpl implements LoginDao{
 	
     private static String Collection_Name ="user";
 
+//  All User Are Login USing This Method
 	 @Override
 		public User userLogin(String emailId, String password) {
 			// TODO Auto-generated method stub
@@ -32,6 +33,8 @@ public class LoginDaoImpl implements LoginDao{
 				{
 //					System.out.println("contorller password: " + password);
 					BCryptPasswordEncoder bCryptPasswordEncoder = new BCryptPasswordEncoder();
+					
+//					Matches Method Using Encrypted Password Match
 					if(bCryptPasswordEncoder.matches( password, user.getPassword()))
 					{
 						
@@ -53,7 +56,7 @@ public class LoginDaoImpl implements LoginDao{
 				
 			} catch (Exception e) {
 				// TODO: handle exception
-				
+				e.printStackTrace();
 				return null;
 			}
 			
